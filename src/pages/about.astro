@@ -1,0 +1,192 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About" description="Mechanical engineering student at UVic, passionate about robotics, design, and building things that move.">
+  <div class="container" style="padding-top: 4rem; padding-bottom: 6rem;">
+    <div class="about-hero">
+      <div class="about-photo">
+        <img src="/images/Me-1.jpeg" alt="Wyatt Shore" />
+      </div>
+      <div class="about-intro">
+        <h1>Hi! I'm Wyatt</h1>
+        <p class="lead">
+          I'm a mechanical engineering student at the University of Victoria with a passion for solving complex problems and building things that move.
+        </p>
+        <p>
+          I like to focus on the intersection of design, robotics, manufacturing, and software development, with an emphasis on optimizing how real-world systems function. When I'm not obsessing over a project or buried in SolidWorks, you'll probably find me staying active, enjoying the outdoors, or playing guitar.
+        </p>
+        <p>
+          I truly love the excitement of learning and applying science and technology to the world around me — you can read about my projects <a href="/blog">here on this site</a>.
+        </p>
+        <div class="about-links">
+          <a href="mailto:wynshore@gmail.com" class="about-link">✉ wynshore@gmail.com</a>
+          <a href="https://github.com/wyshore" target="_blank" rel="noopener" class="about-link">GitHub</a>
+          <a href="/resume" class="about-link">Resume</a>
+        </div>
+      </div>
+    </div>
+
+    <hr />
+
+    <section class="about-section">
+      <h2>What I'm About</h2>
+      <div class="about-grid">
+        <div class="about-card">
+          <div class="about-card-icon">⚙️</div>
+          <h3>Mechanical Design</h3>
+          <p>SolidWorks is basically a second language at this point. I enjoy translating ideas from sketch to functional assembly, thinking through tolerances, material choices, and how something will actually be made.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🔌</div>
+          <h3>Electronics & Embedded</h3>
+          <p>My projects tend to blur the line between mechanical and electrical. I've worked with ESP32s, Raspberry Pis, custom PCBs, sensors, and motor drivers — basically anything that makes a mechanical system smarter.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">🖨️</div>
+          <h3>Fabrication</h3>
+          <p>I've spent a lot of time with 3D printers (mostly FDM — PETG is my go-to for anything that needs to survive the real world), and I enjoy the process of turning a CAD model into something you can hold.</p>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">💻</div>
+          <h3>Software</h3>
+          <p>I'm primarily a mechanical guy, but software is unavoidable and honestly pretty fun. Python, C/C++, MATLAB, and even Flutter have all made appearances in my projects.</p>
+        </div>
+      </div>
+    </section>
+
+    <hr />
+
+    <section class="about-section">
+      <h2>A Few Photos</h2>
+      <div class="photo-grid">
+        <div class="photo-item"><img src="/images/IMG_0212-3.jpeg" alt="" loading="lazy" /></div>
+        <div class="photo-item"><img src="/images/IMG_0480.jpeg" alt="" loading="lazy" /></div>
+        <div class="photo-item"><img src="/images/IMG_9512.jpg" alt="" loading="lazy" /></div>
+        <div class="photo-item"><img src="/images/IMG_0098-1.jpeg" alt="" loading="lazy" /></div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .about-hero {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    gap: 3rem;
+    align-items: start;
+    margin-bottom: 3rem;
+  }
+
+  @media (max-width: 640px) {
+    .about-hero { grid-template-columns: 1fr; }
+    .about-photo { width: 140px; }
+  }
+
+  .about-photo {
+    width: 240px;
+    aspect-ratio: 1;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 2px solid var(--color-border);
+  }
+
+  .about-photo img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  h1 { margin-bottom: 1rem; }
+
+  .lead {
+    font-size: 1.1rem;
+    color: #ccc;
+    margin-bottom: 1rem;
+  }
+
+  .about-links {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+
+  .about-link {
+    display: inline-block;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.4rem 1rem;
+    font-size: 0.875rem;
+    color: var(--color-text);
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .about-link:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    opacity: 1;
+  }
+
+  .about-section { margin: 3rem 0; }
+  .about-section h2 { margin-bottom: 1.5rem; }
+
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .about-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+  }
+
+  .about-card-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+  .about-card h3 {
+    font-size: 0.95rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 0.5rem;
+  }
+
+  .about-card p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* Photo grid */
+  .photo-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 600px) {
+    .photo-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  .photo-item {
+    aspect-ratio: 1;
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--color-border);
+  }
+
+  .photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .photo-item:hover img { transform: scale(1.05); }
+</style>

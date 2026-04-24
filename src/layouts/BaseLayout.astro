@@ -1,0 +1,68 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+}
+
+const {
+  title = 'Wyatt Shore',
+  description = 'Mechanical engineering student at UVic. I build things that move.',
+  image = '/images/Seawall_cropped.JPG',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const fullTitle = title === 'Wyatt Shore' ? title : `${title} — Wyatt Shore`;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonicalURL} />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:image" content={new URL(image, Astro.site)} />
+  <meta property="og:url" content={canonicalURL} />
+  <meta property="og:type" content="website" />
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">Wyatt<span>.</span></a>
+      <ul class="nav-links">
+        <li><a href="/" class={Astro.url.pathname === '/' ? 'active' : ''}>Home</a></li>
+        <li><a href="/blog" class={Astro.url.pathname.startsWith('/blog') ? 'active' : ''}>Projects</a></li>
+        <li><a href="/about" class={Astro.url.pathname === '/about/' || Astro.url.pathname === '/about' ? 'active' : ''}>About</a></li>
+        <li><a href="/resume" class={Astro.url.pathname === '/resume/' || Astro.url.pathname === '/resume' ? 'active' : ''}>Resume</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <slot />
+  </main>
+
+  <footer>
+    <div>
+      Built with curiosity · <a href="https://github.com/wyshore" target="_blank" rel="noopener">GitHub</a>
+      · <a href="mailto:wynshore@gmail.com">wynshore@gmail.com</a>
+    </div>
+    <div style="margin-top: 0.4rem;">© {new Date().getFullYear()} Wyatt Shore</div>
+  </footer>
+</body>
+</html>

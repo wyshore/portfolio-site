@@ -1,0 +1,312 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('posts')).sort(
+  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
+);
+---
+
+<BaseLayout>
+  <div class="hero">
+    <div class="hero-bg" style="background-image: url('/images/Seawall_cropped.JPG')"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Hey, I'm Wyatt 👋</p>
+      <h1>Mechanical engineer who builds things that move.</h1>
+      <p class="hero-sub">
+        UVic mechanical engineering student with a passion for robotics, design, and making real-world systems work better.
+        This is where I document the projects I actually build.
+      </p>
+      <div class="hero-cta">
+        <a href="/blog" class="btn btn-primary">See My Projects</a>
+        <a href="/about" class="btn btn-ghost">About Me</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <section class="section">
+      <div class="section-header">
+        <h2>Recent Projects</h2>
+        <a href="/blog" class="see-all">See all →</a>
+      </div>
+
+      <div class="post-grid">
+        {posts.map(post => (
+          <a href={`/blog/${post.slug}`} class="post-card">
+            {post.data.featureImage && (
+              <div class="post-card-image">
+                <img src={post.data.featureImage} alt={post.data.title} loading="lazy" />
+              </div>
+            )}
+            <div class="post-card-body">
+              <div class="post-card-meta">
+                {post.data.tags.map(tag => <span class="tag">{tag}</span>)}
+                <time>{new Date(post.data.date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' })}</time>
+              </div>
+              <h3>{post.data.title}</h3>
+              {post.data.description && <p>{post.data.description}</p>}
+              <span class="read-more">Read more →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <section class="section skills-section">
+      <h2>What I Work With</h2>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h3>Design & Simulation</h3>
+          <p>SolidWorks, FEA, GD&T, rapid prototyping, design for manufacturing</p>
+        </div>
+        <div class="skill-group">
+          <h3>Electronics & Embedded</h3>
+          <p>ESP32, Raspberry Pi, PCB design, sensor integration, control systems</p>
+        </div>
+        <div class="skill-group">
+          <h3>Fabrication</h3>
+          <p>3D printing (FDM/PETG/ABS), machining, welding, sheet metal</p>
+        </div>
+        <div class="skill-group">
+          <h3>Software</h3>
+          <p>Python, C/C++, MATLAB, Flutter, Git</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  /* ---- Hero ---- */
+  .hero {
+    position: relative;
+    height: 92vh;
+    min-height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    margin-bottom: 5rem;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center 30%;
+    background-repeat: no-repeat;
+  }
+
+  .hero-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0,0,0,0.35) 0%,
+      rgba(0,0,0,0.55) 60%,
+      rgba(15,15,15,0.95) 100%
+    );
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    padding: 0 1.5rem;
+  }
+
+  .hero-eyebrow {
+    font-size: 1rem;
+    color: rgba(255,255,255,0.7);
+    margin-bottom: 0.75rem;
+  }
+
+  .hero-content h1 {
+    font-size: clamp(2.2rem, 5.5vw, 3.5rem);
+    margin-bottom: 1.25rem;
+    text-shadow: 0 2px 12px rgba(0,0,0,0.4);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: rgba(255,255,255,0.75);
+    max-width: 520px;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 0.7rem 1.6rem;
+    border-radius: var(--radius);
+    font-weight: 600;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .btn-primary {
+    background: var(--color-accent);
+    color: #000;
+  }
+  .btn-primary:hover { opacity: 0.85; }
+
+  .btn-ghost {
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff;
+    backdrop-filter: blur(4px);
+  }
+  .btn-ghost:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent);
+    opacity: 1;
+  }
+
+  /* ---- Section ---- */
+  .section {
+    margin-bottom: 5rem;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 2rem;
+  }
+
+  .section-header h2 { margin: 0; }
+
+  .see-all {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+  }
+  .see-all:hover { color: var(--color-accent); opacity: 1; }
+
+  /* ---- Post grid ---- */
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .post-card {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    color: var(--color-text);
+  }
+
+  .post-card:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    opacity: 1;
+  }
+
+  .post-card-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+  }
+
+  .post-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+  }
+
+  .post-card:hover .post-card-image img {
+    transform: scale(1.03);
+  }
+
+  .post-card-body {
+    padding: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .post-card-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+  }
+
+  .post-card-meta time {
+    font-size: 0.8rem;
+    color: var(--color-text-muted);
+  }
+
+  .post-card-body h3 {
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem;
+    color: #fff;
+  }
+
+  .post-card-body p {
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    line-height: 1.5;
+    margin: 0;
+    flex: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .read-more {
+    display: inline-block;
+    margin-top: 1rem;
+    font-size: 0.85rem;
+    color: var(--color-accent);
+    font-weight: 600;
+  }
+
+  /* ---- Skills ---- */
+  .skills-section h2 { margin-bottom: 1.5rem; }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1rem;
+  }
+
+  .skill-group {
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 1.25rem;
+  }
+
+  .skill-group h3 {
+    font-size: 0.9rem;
+    color: var(--color-accent);
+    margin: 0 0 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .skill-group p {
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    margin: 0;
+    line-height: 1.5;
+  }
+</style>
