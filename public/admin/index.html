@@ -4,71 +4,8 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Portfolio Admin</title>
-  <style>
-    #loading {
-      font-family: sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      height: 100vh;
-      color: #555;
-    }
-    #loading p { margin-top: 1rem; font-size: 0.95rem; }
-    #error {
-      display: none;
-      font-family: sans-serif;
-      padding: 2rem;
-      color: #c00;
-      background: #fff5f5;
-      border: 1px solid #fcc;
-      border-radius: 8px;
-      margin: 2rem;
-    }
-  </style>
 </head>
 <body>
-  <div id="loading">
-    <svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
-      <circle cx="20" cy="20" r="16" fill="none" stroke="#e8c547" stroke-width="4" stroke-dasharray="80" stroke-dashoffset="60">
-        <animateTransform attributeName="transform" type="rotate" from="0 20 20" to="360 20 20" dur="1s" repeatCount="indefinite"/>
-      </circle>
-    </svg>
-    <p>Loading editor…</p>
-  </div>
-  <div id="error"></div>
-
-  <script>
-    window.onerror = function(msg, src, line) {
-      document.getElementById('loading').style.display = 'none';
-      var el = document.getElementById('error');
-      el.style.display = 'block';
-      el.innerHTML = '<strong>Failed to load the admin editor.</strong><br><br>' +
-        'Error: ' + msg + '<br>Source: ' + src + ':' + line + '<br><br>' +
-        'Try hard-refreshing (Ctrl+Shift+R) or check that the site is fully deployed.';
-    };
-  </script>
-
-  <script src="https://unpkg.com/decap-cms@3.3.3/dist/decap-cms.js"
-    onload="document.getElementById('loading').style.display='none'"
-    onerror="document.getElementById('loading').style.display='none'; document.getElementById('error').style.display='block'; document.getElementById('error').innerHTML='Failed to load Decap CMS script. Check your internet connection or try again.'">
-  </script>
-
-  <script>
-    // Override backend to use implicit GitHub OAuth (no auth server needed)
-    if (window.CMS) {
-      window.CMS.init({
-        config: {
-          backend: {
-            name: 'github',
-            repo: 'wyshore/portfolio-site',
-            branch: 'main',
-            auth_type: 'implicit',
-            app_id: 'Ov23lipZnvV12ucaZf2U'
-          }
-        }
-      });
-    }
-  </script>
+  <script src="https://unpkg.com/decap-cms@3.0.4/dist/decap-cms.js"></script>
 </body>
 </html>
