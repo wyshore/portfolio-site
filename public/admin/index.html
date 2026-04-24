@@ -49,10 +49,26 @@
     };
   </script>
 
-  <!-- Pinned Decap CMS version for reliability -->
   <script src="https://unpkg.com/decap-cms@3.3.3/dist/decap-cms.js"
     onload="document.getElementById('loading').style.display='none'"
     onerror="document.getElementById('loading').style.display='none'; document.getElementById('error').style.display='block'; document.getElementById('error').innerHTML='Failed to load Decap CMS script. Check your internet connection or try again.'">
+  </script>
+
+  <script>
+    // Override backend to use implicit GitHub OAuth (no auth server needed)
+    if (window.CMS) {
+      window.CMS.init({
+        config: {
+          backend: {
+            name: 'github',
+            repo: 'wyshore/portfolio-site',
+            branch: 'main',
+            auth_type: 'implicit',
+            app_id: 'Ov23lipZnvV12ucaZf2U'
+          }
+        }
+      });
+    }
   </script>
 </body>
 </html>
