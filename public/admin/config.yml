@@ -1,15 +1,11 @@
 backend:
   name: github
-  repo: wyshore/wyatt-portfolio       # UPDATE THIS to match your actual repo name
+  repo: wyshore/portfolio-site
   branch: main
-  base_url: https://api.decapcms.org  # Free hosted OAuth — no server setup needed
+  base_url: https://api.decapcms.org
 
-# Allows image uploads to be committed directly to the repo
 media_folder: public/images
 public_folder: /images
-
-# Use editorial workflow (optional: lets you save drafts before publishing)
-# publish_mode: editorial_workflow
 
 collections:
   - name: posts
