@@ -1,0 +1,67 @@
+/* ============================================================
+   THEME — managed by the Portfolio Editor (Site Settings → Theme)
+   Hand-edits here will be overwritten when you save settings.
+   ============================================================ */
+:root {
+  --color-bg: #0f0f0f;
+  --color-surface: #1a1a1a;
+  --color-surface-2: #242424;
+  --color-border: #2e2e2e;
+  --color-text: #e8e8e8;
+  --color-text-muted: #888888;
+  --color-accent: #e8c547;
+  --color-accent-dim: rgba(232, 197, 71, 0.12);
+  --bg-pattern: none;
+}
+
+/* Background patterns — applied to <body>::before so they sit behind everything */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -1;
+  background: var(--bg-pattern);
+  opacity: 0.4;
+}
+
+/* Pattern presets — picked from the editor by setting --bg-pattern to one of these.
+   Each is a CSS background image string. */
+.bg-pattern-graph {
+  --bg-pattern:
+    linear-gradient(to right, rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px, 40px 40px;
+}
+.bg-pattern-graph-fine {
+  --bg-pattern:
+    linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+  background-size: 20px 20px, 20px 20px;
+}
+.bg-pattern-dots {
+  --bg-pattern: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1.5px);
+  background-size: 22px 22px;
+}
+.bg-pattern-grid {
+  --bg-pattern:
+    linear-gradient(to right, rgba(232,197,71,0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(232,197,71,0.04) 1px, transparent 1px);
+  background-size: 60px 60px, 60px 60px;
+}
+.bg-pattern-blueprint {
+  --bg-pattern:
+    linear-gradient(to right, rgba(120,180,255,0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(120,180,255,0.05) 1px, transparent 1px);
+  background-size: 30px 30px, 30px 30px;
+}
+.bg-pattern-diagonal {
+  --bg-pattern: repeating-linear-gradient(
+    45deg,
+    transparent 0,
+    transparent 8px,
+    rgba(255,255,255,0.02) 8px,
+    rgba(255,255,255,0.02) 9px
+  );
+  background-size: auto;
+}

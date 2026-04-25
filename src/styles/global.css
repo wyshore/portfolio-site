@@ -206,6 +206,60 @@ footer a:hover { color: var(--color-accent); opacity: 1; }
   object-fit: cover;
 }
 
+/* ---- Side-by-side image rows (written by the Portfolio Editor) ---- */
+.post-content .img-row {
+  margin: 2rem 0;
+}
+.post-content .img-row-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.75rem;
+  align-items: stretch;
+}
+.post-content .img-row-grid.cols-2 { grid-template-columns: repeat(2, 1fr); }
+.post-content .img-row-grid.cols-3 { grid-template-columns: repeat(3, 1fr); }
+.post-content .img-row-grid.cols-4 { grid-template-columns: repeat(4, 1fr); }
+
+.post-content .img-row-grid img {
+  margin: 0 !important;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--radius);
+  display: block;
+}
+.post-content .img-row > figcaption,
+.post-content .img-row .img-row-caption {
+  text-align: center;
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: 0.6rem;
+}
+
+@media (max-width: 600px) {
+  .post-content .img-row-grid.cols-3,
+  .post-content .img-row-grid.cols-4 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* ---- Inline image alignment options (set in the editor) ---- */
+.post-content figure.align-left {
+  float: left; margin-right: 1.5rem; margin-bottom: 1rem; max-width: 50%;
+}
+.post-content figure.align-right {
+  float: right; margin-left: 1.5rem; margin-bottom: 1rem; max-width: 50%;
+}
+.post-content figure.align-center {
+  margin-left: auto; margin-right: auto; text-align: center;
+}
+.post-content figure.size-small img { max-width: 320px; margin-left: auto; margin-right: auto; }
+.post-content figure.size-medium img { max-width: 560px; margin-left: auto; margin-right: auto; }
+.post-content figure.size-large img,
+.post-content figure.size-full img { max-width: 100%; }
+
 /* ---- Tag chip ---- */
 .tag {
   display: inline-block;

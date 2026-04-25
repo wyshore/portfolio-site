@@ -12,8 +12,8 @@ const posts = (await getCollection('posts')).sort(
     <div class="hero-bg" style="background-image: url('/images/Seawall_cropped.JPG')"></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <p class="hero-eyebrow"></p>
       <h1>Wyatt Shore</h1>
+      <p class="hero-subtitle">Mechanical Engineer</p>
       <p class="hero-sub">
         I study mechanical engineering at the University of Victoria and I enjoy working on interesting personal projects relating to robotics, design, and more. You can read about my work here!
       </p>
@@ -117,10 +117,14 @@ const posts = (await getCollection('posts')).sort(
     padding: 0 1.5rem;
   }
 
-  .hero-eyebrow {
-    font-size: 1rem;
-    color: rgba(255,255,255,0.7);
-    margin-bottom: 0.75rem;
+  .hero-subtitle {
+    font-size: 1.05rem;
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    margin-bottom: 1.5rem;
+    margin-top: 0.5rem;
+    font-weight: 500;
   }
 
   .hero-content h1 {
