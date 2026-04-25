@@ -3,14 +3,14 @@
    Hand-edits here will be overwritten when you save settings.
    ============================================================ */
 :root {
-  --color-bg: #13160f;
-  --color-surface: #1c1f17;
-  --color-surface-2: #262a20;
-  --color-border: #363b30;
-  --color-text: #e7e6dc;
-  --color-text-muted: #8a8c7e;
-  --color-accent: #d97a3e;
-  --color-accent-dim: rgba(217, 122, 62, 0.12);
+  --color-bg: #0a1929;
+  --color-surface: #0f2540;
+  --color-surface-2: #16304f;
+  --color-border: #1f3d5e;
+  --color-text: #e3edf7;
+  --color-text-muted: #88a8c8;
+  --color-accent: #79b8ff;
+  --color-accent-dim: rgba(121, 184, 255, 0.12);
   --bg-pattern: none;
 }
 
