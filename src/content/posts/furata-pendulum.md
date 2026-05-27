@@ -7,7 +7,9 @@ tags: ["Engineering"]
 ---
 A Furata Pendulum, otherwise known as a rotary inverted pendulum, is a device which consists of a driven base which rotates about the vertical axis, and a freely swinging pendulum attached such that the base rotation can balance the pendulum in an upright position.
 
-## Project Goals My goal for this project is to design and build a compact, desktop Furata Pendulum based on an ESP32. I've laid out the following requirements:
+## Project Goals
+
+My goal for this project is to design and build a compact, desktop Furata Pendulum based on an ESP32. I've laid out the following requirements:
 
 - Stay within a budget of $150
 - Must balance effectively, balancing motion should be minimal and smooth
