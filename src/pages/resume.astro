@@ -1,0 +1,49 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Resume" description="Wyatt Shore's engineering resume">
+  <div class="container" style="padding-top: 4rem; padding-bottom: 6rem;">
+    <div class="resume-header">
+      <h1>Resume</h1>
+      <a href="/images/Tesla-Resume.png" download class="btn-download">⬇ Download</a>
+    </div>
+    <div class="resume-viewer">
+      <img src="/images/Tesla-Resume.png" alt="Wyatt Shore Resume" />
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .resume-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  .btn-download {
+    display: inline-block;
+    background: var(--color-accent);
+    color: #000;
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding: 0.5rem 1.2rem;
+    border-radius: var(--radius);
+    transition: opacity 0.2s;
+  }
+
+  .btn-download:hover { opacity: 0.8; }
+
+  .resume-viewer {
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #fff;
+  }
+
+  .resume-viewer img {
+    width: 100%;
+    display: block;
+  }
+</style>
