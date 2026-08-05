@@ -1,6 +1,7 @@
 ---
 import '../styles/theme.css';
 import '../styles/global.css';
+import site from '../data/site.json';
 
 interface Props {
   title?: string;
@@ -9,18 +10,18 @@ interface Props {
 }
 
 const {
-  title = 'Wyatt Shore',
-  description = 'Mechanical engineering student at UVic. I build things that move.',
-  image = '/images/Seawall_cropped.JPG',
+  title = site.seo.siteName,
+  description = site.seo.defaultDescription,
+  image = site.seo.defaultImage,
 } = Astro.props;
 
-// SITE_BG_PATTERN: managed by the Portfolio Editor — Theme settings.
+// Background pattern comes from src/data/site.json (theme.bgPattern).
 // Valid values: '' (none), 'bg-pattern-graph', 'bg-pattern-graph-fine',
 // 'bg-pattern-dots', 'bg-pattern-grid', 'bg-pattern-blueprint', 'bg-pattern-diagonal'
-const SITE_BG_PATTERN = '';
+const SITE_BG_PATTERN = site.theme.bgPattern;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
-const fullTitle = title === 'Wyatt Shore' ? title : `${title} — Wyatt Shore`;
+const fullTitle = title === site.seo.siteName ? title : `${title} — ${site.seo.siteName}`;
 ---
 
 <!DOCTYPE html>

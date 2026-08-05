@@ -1,28 +1,33 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import site from '../data/site.json';
+
+const about = site.about;
 ---
 
-<BaseLayout title="About" description="Mechanical engineering student at UVic, passionate about robotics, design, and building things that move.">
+<BaseLayout title="About" description={about.pageDescription}>
   <div class="container" style="padding-top: 4rem; padding-bottom: 6rem;">
     <div class="about-hero">
       <div class="about-photo">
-        <img src="/images/Me-1.jpeg" alt="Wyatt Shore" />
+        <img src={about.photo} alt={site.hero.name} />
       </div>
       <div class="about-intro">
-        <h1>Hi! I'm Wyatt</h1>
+        <h1>{about.heading}</h1>
         <p class="lead">
-          I'm a mechanical engineering student at the University of Victoria with a passion for solving complex problems and building things that move.
+          {about.lead}
         </p>
-        <p>
-          I like to focus on the intersection of design, robotics, manufacturing, and software development, with an emphasis on optimizing how real-world systems function. When I'm not obsessing over a project or buried in SolidWorks, you'll probably find me staying active, enjoying the outdoors, or playing guitar.
-        </p>
-        <p>
-          I truly love the excitement of learning and applying science and technology to the world around me — you can read about my projects <a href="/blog">here on this site</a>.
-        </p>
+        {about.paragraphs.map(p => (
+          <p set:html={p}></p>
+        ))}
         <div class="about-links">
-          <a href="mailto:wynshore@gmail.com" class="about-link">✉ wynshore@gmail.com</a>
-          <a href="https://github.com/wyshore" target="_blank" rel="noopener" class="about-link">GitHub</a>
-          <a href="/resume" class="about-link">Resume</a>
+          {about.links.map(link => (
+            <a
+              href={link.href}
+              target={link.href.startsWith('http') ? '_blank' : undefined}
+              rel={link.href.startsWith('http') ? 'noopener' : undefined}
+              class="about-link"
+            >{link.label}</a>
+          ))}
         </div>
       </div>
     </div>
@@ -30,40 +35,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     <hr />
 
     <section class="about-section">
-      <h2>What I'm About</h2>
+      <h2>{about.cardsHeading}</h2>
       <div class="about-grid">
-        <div class="about-card">
-          <div class="about-card-icon"></div>
-          <h3>Mechanical Design</h3>
-          <p>SolidWorks is basically a second language at this point. I enjoy translating ideas from sketch to functional assembly, thinking through tolerances, material choices, and how something will actually be made.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-icon"></div>
-          <h3>Electronics & Embedded</h3>
-          <p>My projects tend to blur the line between mechanical and electrical. I've worked with ESP32s, Raspberry Pis, custom PCBs, sensors, and motor drivers — basically anything that makes a mechanical system smarter.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-icon"></div>
-          <h3>Fabrication</h3>
-          <p>I've spent a lot of time with 3D printers (mostly FDM — PETG is my go-to for anything that needs to survive the real world), and I enjoy the process of turning a CAD model into something you can hold.</p>
-        </div>
-        <div class="about-card">
-          <div class="about-card-icon"></div>
-          <h3>Software</h3>
-          <p>I'm primarily a mechanical guy, but software is unavoidable and honestly pretty fun. Python, C/C++, MATLAB, and even Flutter have all made appearances in my projects.</p>
-        </div>
+        {about.cards.map(card => (
+          <div class="about-card">
+            <div class="about-card-icon"></div>
+            <h3>{card.title}</h3>
+            <p>{card.text}</p>
+          </div>
+        ))}
       </div>
     </section>
 
     <hr />
 
     <section class="about-section">
-      <h2>A Few Photos</h2>
+      <h2>{about.photosHeading}</h2>
       <div class="photo-collage">
-        <div class="photo-tile tile-large"><img src="/images/IMG_0212-3.jpeg" alt="" loading="lazy" /></div>
-        <div class="photo-tile tile-large"><img src="/images/IMG_0480.jpeg" alt="" loading="lazy" /></div>
-        <div class="photo-tile tile-large"><img src="/images/IMG_9512.jpg" alt="" loading="lazy" /></div>
-        <div class="photo-tile tile-large"><img src="/images/IMG_0098-1.jpeg" alt="" loading="lazy" /></div>
+        {about.photos.map(photo => (
+          <div class={`photo-tile tile-${photo.size}`}><img src={photo.src} alt="" loading="lazy" /></div>
+        ))}
       </div>
     </section>
   </div>

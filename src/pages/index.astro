@@ -1,25 +1,27 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { getCollection } from 'astro:content';
+import site from '../data/site.json';
 
-const posts = (await getCollection('posts')).sort(
-  (a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime()
-);
+// Drafts are visible in the local live preview (dev) but never published (build).
+const posts = (await getCollection('posts'))
+  .filter(post => import.meta.env.DEV || !post.data.draft)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
 ---
 
 <BaseLayout>
   <div class="hero">
-    <div class="hero-bg" style="background-image: url('/images/Seawall_cropped.JPG')"></div>
+    <div class="hero-bg" style={`background-image: url('${site.hero.backgroundImage}')`}></div>
     <div class="hero-overlay"></div>
     <div class="hero-content">
-      <h1>Wyatt Shore</h1>
-      <p class="hero-subtitle">Mechanical Engineer</p>
+      <h1>{site.hero.name}</h1>
+      <p class="hero-subtitle">{site.hero.subtitle}</p>
       <p class="hero-sub">
-        I study mechanical engineering at the University of Victoria and I enjoy working on interesting personal projects relating to robotics, design, and more. You can read about my work here!
+        {site.hero.tagline}
       </p>
       <div class="hero-cta">
-        <a href="/blog" class="btn btn-primary">See My Projects</a>
-        <a href="/about" class="btn btn-ghost">About Me</a>
+        <a href={site.hero.primaryButton.href} class="btn btn-primary">{site.hero.primaryButton.label}</a>
+        <a href={site.hero.ghostButton.href} class="btn btn-ghost">{site.hero.ghostButton.label}</a>
       </div>
     </div>
   </div>
@@ -54,24 +56,14 @@ const posts = (await getCollection('posts')).sort(
     </section>
 
     <section class="section skills-section">
-      <h2>What I Work With</h2>
+      <h2>{site.skillsHeading}</h2>
       <div class="skills-grid">
-        <div class="skill-group">
-          <h3>Design & Simulation</h3>
-          <p>SolidWorks, FEA, GD&T, rapid prototyping, design for manufacturing</p>
-        </div>
-        <div class="skill-group">
-          <h3>Electronics & Embedded</h3>
-          <p>ESP32, Raspberry Pi, PCB design, sensor integration, control systems</p>
-        </div>
-        <div class="skill-group">
-          <h3>Fabrication</h3>
-          <p>3D printing (FDM/PETG/ABS), machining, welding, sheet metal</p>
-        </div>
-        <div class="skill-group">
-          <h3>Software</h3>
-          <p>Python, C/C++, MATLAB, Flutter, Git</p>
-        </div>
+        {site.skills.map(skill => (
+          <div class="skill-group">
+            <h3>{skill.title}</h3>
+            <p>{skill.text}</p>
+          </div>
+        ))}
       </div>
     </section>
   </div>
