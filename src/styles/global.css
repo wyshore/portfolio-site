@@ -260,6 +260,52 @@ footer a:hover { color: var(--color-accent); opacity: 1; }
 .post-content figure.size-large img,
 .post-content figure.size-full img { max-width: 100%; }
 
+/* ---- Tables in posts ---- */
+.post-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.8rem 0;
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
+.post-content th,
+.post-content td {
+  border: 1px solid var(--color-border);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  vertical-align: top;
+}
+.post-content th {
+  background: var(--color-surface);
+  font-weight: 600;
+  color: var(--color-text);
+}
+.post-content tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.02);
+}
+.post-content td p,
+.post-content th p {
+  margin: 0;
+}
+@media (max-width: 640px) {
+  .post-content table { display: block; overflow-x: auto; }
+}
+
+/* ---- Embedded videos in posts ---- */
+.post-content div[data-youtube-video],
+.post-content .video-embed {
+  margin: 2rem 0;
+}
+.post-content div[data-youtube-video] iframe,
+.post-content .video-embed iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  height: auto;
+  border: none;
+  border-radius: var(--radius);
+  display: block;
+}
+
 /* ---- Tag chip ---- */
 .tag {
   display: inline-block;

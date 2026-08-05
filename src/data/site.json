@@ -12,15 +12,33 @@
     "name": "Wyatt Shore",
     "subtitle": "Mechanical Engineer",
     "tagline": "I study mechanical engineering at the University of Victoria and I enjoy working on interesting personal projects relating to robotics, design, and more. You can read about my work here!",
-    "primaryButton": { "label": "See My Projects", "href": "/blog" },
-    "ghostButton": { "label": "About Me", "href": "/about" }
+    "primaryButton": {
+      "label": "See My Projects",
+      "href": "/blog"
+    },
+    "ghostButton": {
+      "label": "About Me",
+      "href": "/about"
+    }
   },
   "skillsHeading": "What I Work With",
   "skills": [
-    { "title": "Design & Simulation", "text": "SolidWorks, FEA, GD&T, rapid prototyping, design for manufacturing" },
-    { "title": "Electronics & Embedded", "text": "ESP32, Raspberry Pi, PCB design, sensor integration, control systems" },
-    { "title": "Fabrication", "text": "3D printing (FDM/PETG/ABS), machining, welding, sheet metal" },
-    { "title": "Software", "text": "Python, C/C++, MATLAB, Flutter, Git" }
+    {
+      "title": "Design & Simulation",
+      "text": "SolidWorks, FEA, GD&T, rapid prototyping, design for manufacturing"
+    },
+    {
+      "title": "Electronics & Embedded",
+      "text": "ESP32, Raspberry Pi, PCB design, sensor integration, control systems"
+    },
+    {
+      "title": "Fabrication",
+      "text": "3D printing (FDM/PETG/ABS), machining, welding, sheet metal"
+    },
+    {
+      "title": "Software",
+      "text": "Python, C/C++, MATLAB, Flutter, Git"
+    }
   ],
   "about": {
     "pageDescription": "Mechanical engineering student at UVic, passionate about robotics, design, and building things that move.",
@@ -32,23 +50,56 @@
       "I truly love the excitement of learning and applying science and technology to the world around me — you can read about my projects <a href=\"/blog\">here on this site</a>."
     ],
     "links": [
-      { "label": "✉ wynshore@gmail.com", "href": "mailto:wynshore@gmail.com" },
-      { "label": "GitHub", "href": "https://github.com/wyshore" },
-      { "label": "Resume", "href": "/resume" }
+      {
+        "label": "✉ wynshore@gmail.com",
+        "href": "mailto:wynshore@gmail.com"
+      },
+      {
+        "label": "GitHub",
+        "href": "https://github.com/wyshore"
+      },
+      {
+        "label": "Resume",
+        "href": "/resume"
+      }
     ],
     "cardsHeading": "What I'm About",
     "cards": [
-      { "title": "Mechanical Design", "text": "SolidWorks is basically a second language at this point. I enjoy translating ideas from sketch to functional assembly, thinking through tolerances, material choices, and how something will actually be made." },
-      { "title": "Electronics & Embedded", "text": "My projects tend to blur the line between mechanical and electrical. I've worked with ESP32s, Raspberry Pis, custom PCBs, sensors, and motor drivers — basically anything that makes a mechanical system smarter." },
-      { "title": "Fabrication", "text": "I've spent a lot of time with 3D printers (mostly FDM — PETG is my go-to for anything that needs to survive the real world), and I enjoy the process of turning a CAD model into something you can hold." },
-      { "title": "Software", "text": "I'm primarily a mechanical guy, but software is unavoidable and honestly pretty fun. Python, C/C++, MATLAB, and even Flutter have all made appearances in my projects." }
+      {
+        "title": "Mechanical Design",
+        "text": "SolidWorks is basically a second language at this point. I enjoy translating ideas from sketch to functional assembly, thinking through tolerances, material choices, and how something will actually be made."
+      },
+      {
+        "title": "Electronics & Embedded",
+        "text": "My projects tend to blur the line between mechanical and electrical. I've worked with ESP32s, Raspberry Pis, custom PCBs, sensors, and motor drivers — basically anything that makes a mechanical system smarter."
+      },
+      {
+        "title": "Fabrication",
+        "text": "I've spent a lot of time with 3D printers (mostly FDM — PETG is my go-to for anything that needs to survive the real world), and I enjoy the process of turning a CAD model into something you can hold."
+      },
+      {
+        "title": "Software",
+        "text": "I'm primarily a mechanical guy, but software is unavoidable and honestly pretty fun. Python, C/C++, MATLAB, and even Flutter have all made appearances in my projects."
+      }
     ],
     "photosHeading": "A Few Photos",
     "photos": [
-      { "src": "/images/IMG_0212-3.jpeg", "size": "large" },
-      { "src": "/images/IMG_0480.jpeg", "size": "large" },
-      { "src": "/images/IMG_9512.jpg", "size": "large" },
-      { "src": "/images/IMG_0098-1.jpeg", "size": "large" }
+      {
+        "src": "/images/IMG_0212-3.jpeg",
+        "size": "large"
+      },
+      {
+        "src": "/images/IMG_0480.jpeg",
+        "size": "large"
+      },
+      {
+        "src": "/images/IMG_9512.jpg",
+        "size": "large"
+      },
+      {
+        "src": "/images/IMG_0098-1.jpeg",
+        "size": "large"
+      }
     ]
   }
 }
