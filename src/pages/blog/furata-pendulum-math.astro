@@ -1,0 +1,315 @@
+---
+import PostLayout from '../../layouts/PostLayout.astro';
+
+const title = 'The Math Behind the Furuta Pendulum';
+const description =
+  'The equations behind the build: Lagrangian dynamics, the linearized state-space, LQR, the state observer, and the energy-based swing-up law.';
+---
+
+<PostLayout
+  title={title}
+  description={description}
+  date="2026-08-14"
+  tags={['Engineering', 'Math']}
+>
+  <p>
+    This is the companion page to my
+    <a href="/blog/furata-pendulum">Furuta Pendulum build log</a>. The main post tells
+    the story; this page collects the actual math — the dynamic model, the controller,
+    the observer, and the swing-up law — with just enough narration to follow along.
+  </p>
+
+  <h2>1. Coordinates and Parameters</h2>
+  <p>
+    The system has two degrees of freedom: the arm angle <span is:raw>$\theta$</span>
+    (the only coordinate the motor drives, rotating about the vertical axis) and the
+    pendulum angle <span is:raw>$\varphi$</span>, measured from upright — so
+    <span is:raw>$\varphi = 0$</span> is balanced and <span is:raw>$\varphi = \pm\pi$</span> is
+    hanging. The pendulum is a bare uniform steel rod, so its center of mass sits at
+    half its length and its inertia follows from the standard rod formula.
+  </p>
+  <table>
+    <tbody>
+      <tr><th><p>Symbol</p></th><th><p>Meaning</p></th><th><p>Value</p></th></tr>
+      <tr><td><p>R</p></td><td><p>Arm length (pivot radius)</p></td><td><p>50 mm</p></td></tr>
+      <tr><td><p>r</p></td><td><p>Pendulum rod length</p></td><td><p>100 mm</p></td></tr>
+      <tr><td><p>l = r/2</p></td><td><p>Distance to the rod's center of mass</p></td><td><p>50 mm</p></td></tr>
+      <tr><td><p>m<sub>p</sub></p></td><td><p>Pendulum rod mass</p></td><td><p>measured</p></td></tr>
+      <tr><td><p>I<sub>p</sub> = (1/12) m<sub>p</sub> r²</p></td><td><p>Rod inertia about its own center of mass</p></td><td><p>computed</p></td></tr>
+      <tr><td><p>J<sub>p</sub> = I<sub>p</sub> + m<sub>p</sub> l²</p></td><td><p>Rod inertia about its pivot</p></td><td><p>5.25 × 10⁻⁵ kg·m² (identified)</p></td></tr>
+      <tr><td><p>J<sub>A</sub></p></td><td><p>Arm assembly inertia about the motor axis</p></td><td><p>≈ 2–2.9 × 10⁻³ kg·m² (identified)</p></td></tr>
+      <tr><td><p>K<sub>t</sub> = K<sub>e</sub></p></td><td><p>Motor torque / back-EMF constant</p></td><td><p>≈ 0.098 N·m/A (identified)</p></td></tr>
+      <tr><td><p>R<sub>phase</sub></p></td><td><p>Motor phase resistance</p></td><td><p>9.167 Ω (measured)</p></td></tr>
+      <tr><td><p>τ<sub>max</sub></p></td><td><p>Peak torque at the 8 V firmware cap</p></td><td><p>≈ 0.087 N·m</p></td></tr>
+    </tbody>
+  </table>
+  <p>
+    A satisfying validation: the pendulum inertia derived from first principles
+    (5.18 × 10⁻⁵ kg·m²) matched the value identified from a free-swing experiment
+    (5.25 × 10⁻⁵ kg·m²) to within <strong>1.3%</strong>.
+  </p>
+
+  <h2>2. The Lagrangian</h2>
+  <p>
+    I derived the equations of motion with Lagrangian mechanics — energies instead of
+    forces — which sidesteps tracking constraint forces through the rotating frame.
+    The one genuinely subtle point: the pendulum's pivot rides on the moving arm tip,
+    which is <em>not</em> an inertially fixed point, so the pendulum's kinetic energy
+    must be written with König's theorem (translation of the center of mass plus
+    rotation about it):
+  </p>
+  <div class="eq" is:raw>
+    $$ T_{pend} = \tfrac{1}{2} m_p\, v_{COM}^2 + \tfrac{1}{2} I_p\, \omega^2 $$
+  </div>
+  <p>
+    (The arm, which rotates about a fixed axis, is allowed the familiar single-term
+    shortcut — the asymmetry between the two bodies is instructive.) Carrying out the
+    kinematics and collecting terms gives the total kinetic and potential energies:
+  </p>
+  <div class="eq" is:raw>
+    $$ T = \tfrac{1}{2}\!\left(J_A + m_p R^2 + J_p \sin^2\!\varphi\right)\dot\theta^2
+         + \tfrac{1}{2} J_p\, \dot\varphi^2
+         + m_p\, l\, R \cos\varphi\; \dot\theta\, \dot\varphi $$
+  </div>
+  <div class="eq" is:raw>
+    $$ V = m_p\, g\, l \cos\varphi $$
+  </div>
+  <p>
+    Note that <span is:raw>$V$</span> is <em>maximal</em> at upright — that sign is where the
+    instability lives. Applying the Euler–Lagrange equations to
+    <span is:raw>$L = T - V$</span> for each coordinate yields two coupled nonlinear
+    equations of motion, compactly:
+  </p>
+  <div class="eq" is:raw>
+    $$ M(q)\,\ddot q + C(q,\dot q)\,\dot q + G(q) = \begin{bmatrix} \tau \\ 0 \end{bmatrix},
+       \qquad q = \begin{bmatrix} \theta \\ \varphi \end{bmatrix} $$
+  </div>
+  <div class="eq" is:raw>
+    $$ M(q) = \begin{bmatrix}
+         J_A + m_p R^2 + J_p \sin^2\!\varphi & m_p\, l\, R \cos\varphi \\
+         m_p\, l\, R \cos\varphi & J_p
+       \end{bmatrix},
+       \qquad
+       G(q) = \begin{bmatrix} 0 \\ -\, m_p\, g\, l \sin\varphi \end{bmatrix} $$
+  </div>
+  <p>
+    where <span is:raw>$C$</span> collects the Coriolis/centrifugal terms and friction
+    enters as damping on each joint. Every step of the hand derivation was
+    cross-checked symbolically with sympy.
+  </p>
+
+  <h2>3. Linearization and the State-Space Model</h2>
+  <p>
+    For balancing, linearize about upright (<span is:raw>$\varphi \approx 0$</span>: small
+    angles, drop products of rates). The coupled equations reduce to:
+  </p>
+  <div class="eq" is:raw>
+    $$ \begin{aligned}
+       \left(J_A + m_p R^2\right)\ddot\theta + m_p\, l\, R\, \ddot\varphi &= \tau - b_\theta\, \dot\theta \\
+       m_p\, l\, R\, \ddot\theta + J_p\, \ddot\varphi - m_p\, g\, l\, \varphi &= -\, b_\varphi\, \dot\varphi
+       \end{aligned} $$
+  </div>
+  <p>
+    which assembles into the standard linear state-space form with state vector
+    <span is:raw>$x = [\,\theta,\ \varphi,\ \dot\theta,\ \dot\varphi\,]^T$</span> and input
+    <span is:raw>$u = \tau$</span>:
+  </p>
+  <div class="eq" is:raw>
+    $$ \dot x = A\,x + B\,u, \qquad y = C\,x $$
+  </div>
+  <p>Two properties of this model shape everything that follows:</p>
+  <ul>
+    <li><p>
+      <strong>Instability.</strong> <span is:raw>$A$</span> has a real eigenvalue at about
+      <strong>+11.6 rad/s</strong> — the upright equilibrium is unstable, with errors
+      growing on a ~85 ms timescale. (A back-of-envelope check: ignoring coupling and
+      damping, the growth rate is <span is:raw>$\sqrt{m_p g l / J_p}$</span>, which lands
+      within a few percent of the full eigenvalue.)
+    </p></li>
+    <li><p>
+      <strong>Controllability.</strong> The controllability matrix
+      <span is:raw>$[\,B \ AB \ A^2B \ A^3B\,]$</span> has full rank 4 — torque at the arm
+      alone can steer the entire state. Balancing is guaranteed to be possible
+      <em>before</em> building anything.
+    </p></li>
+  </ul>
+
+  <h2>4. LQR Balance Control</h2>
+  <p>
+    The balance controller is a Linear Quadratic Regulator: choose the gain vector
+    <span is:raw>$K$</span> minimizing the quadratic cost
+  </p>
+  <div class="eq" is:raw>
+    $$ J = \int_0^\infty \left( x^T Q\, x + u^T R\, u \right) dt, \qquad u = -K x $$
+  </div>
+  <p>
+    with <span is:raw>$K$</span> computed from the algebraic Riccati equation
+    (MATLAB's <code>lqr(A, B, Q, R)</code>). The closed-loop matrix
+    <span is:raw>$A - BK$</span> has all eigenvalues in the left half-plane — the unstable
+    pole is pulled stable.
+  </p>
+  <p>
+    The physically important subtlety was the <strong>torque budget</strong>. An
+    aggressive weighting demanded peak torques ~70× beyond the motor's ~0.087 N·m
+    capability, so the flight controller is deliberately gentle: a large
+    <span is:raw>$R$</span> penalizes control effort, keeping the gains small enough that
+    commands respect the hardware. Torque maps to the FOC voltage command through the
+    motor's electrical model,
+  </p>
+  <div class="eq" is:raw>
+    $$ V_q \approx \frac{R_{phase}}{K_t}\, u \;\approx\; 92.5\, u $$
+  </div>
+  <p>
+    clamped at ±8 V by the firmware, so saturation degrades gracefully instead of
+    winding up. The gains that fly on the hardware (after empirically reconciling
+    every sign convention between model and machine):
+    <code>K = [0.037, −0.77, 0.017, −0.045]</code>, executing at 500 Hz.
+  </p>
+
+  <h2>5. The State Observer</h2>
+  <p>
+    The encoders measure only the two angles; the two velocities must be estimated.
+    Differentiating a 14-bit encoder staircase amplifies noise, and low-pass filtering
+    trades that noise for lag — with no setting that is both clean and fast. The
+    principled solution is a Luenberger observer: integrate a copy of the plant model
+    in software, driven by the same input, and continuously correct it with the
+    measurements:
+  </p>
+  <div class="eq" is:raw>
+    $$ \dot{\hat x} = A\,\hat x + B\,u + L\left( y - C\,\hat x \right) $$
+  </div>
+  <p>
+    The correction term converts the <em>position</em> surprise into corrections on
+    <em>all four</em> states — including the unmeasured velocities. The estimation
+    error obeys
+  </p>
+  <div class="eq" is:raw>
+    $$ \dot e = \left( A - L\,C \right) e $$
+  </div>
+  <p>
+    so placing the eigenvalues of <span is:raw>$A - LC$</span> in the left half-plane makes
+    the estimate converge to the truth automatically. This problem is the exact
+    mathematical <strong>dual</strong> of the LQR design (place <span is:raw>$A - BK$</span>),
+    so the same tools compute <span is:raw>$L$</span>. On the ESP32 the observer runs in
+    discrete form at 500 Hz (matrices discretized via <code>c2d</code> at 2 ms) as a
+    predict–correct pair:
+  </p>
+  <div class="eq" is:raw>
+    $$ \hat x_k^- = A_d\, \hat x_{k-1} + B_d\, u_{k-1},
+       \qquad
+       \hat x_k = \hat x_k^- + L_d \left( y_k - C\, \hat x_k^- \right) $$
+  </div>
+  <p>
+    One hard-won practical lesson: with an imperfect model, <strong>slow observer poles
+    fail</strong>. Intuition says slow poles (trust the model) give smooth estimates, but
+    trusting a model with real error injects velocity lag that feeds back as negative
+    damping. The working design keeps the poles fast (around −150 to −180 rad/s) so
+    the estimate stays tightly corrected by the encoders.
+  </p>
+
+  <h2>6. Innovation as a Model-Quality Meter</h2>
+  <p>
+    The observer's <strong>innovation</strong> — the per-step gap between the predicted and
+    actual measurement,
+  </p>
+  <div class="eq" is:raw>
+    $$ \nu_k = y_k - C\, \hat x_k^- $$
+  </div>
+  <p>
+    — is a live readout of model error. Flat, zero-mean noise means the model predicts
+    the sensors as well as they can be predicted; structure (bias, drift, oscillation
+    correlated with a state) points at a specific modeling error. During calm
+    balancing this system's innovation is essentially zero-mean — the first-principles
+    model predicts the encoders almost perfectly. The innovation also exposed a
+    genuinely <em>structural</em> problem: an intermittent ~17 Hz limit cycle traced to an
+    unmodeled degree of freedom (a slightly loose base), fixed mechanically rather
+    than in the controller.
+  </p>
+
+  <h2>7. Energy-Based Swing-Up</h2>
+  <p>
+    Swing-up cannot be position control: at the bottom, torque on the <em>arm</em> has no
+    direct authority over <span is:raw>$\varphi$</span>. Instead, control the pendulum's
+    mechanical energy
+  </p>
+  <div class="eq" is:raw>
+    $$ E = \tfrac{1}{2} J_p\, \dot\varphi^2 + m_p\, g\, l \cos\varphi,
+       \qquad E_{top} = m_p\, g\, l $$
+  </div>
+  <p>
+    and pump it up until it reaches <span is:raw>$E_{top}$</span> — exactly enough to arrive
+    at vertical — then coast and let the LQR catch. The rate of energy injection from
+    accelerating the pivot is
+  </p>
+  <div class="eq" is:raw>
+    $$ \frac{dE}{dt} \;\propto\; \ddot\theta\; \dot\varphi \cos\varphi $$
+  </div>
+  <p>
+    so to always <em>add</em> energy, the arm acceleration should follow the sign of
+    <span is:raw>$\dot\varphi \cos\varphi$</span> — the Åström–Furuta law. The physics of the
+    cosine term: push the pivot in the direction of the bob's horizontal
+    <em>velocity</em>, hardest at the bottom — and crucially, the sign flips above
+    horizontal, correctly reversing the push once the bob rises over the pivot.
+    Dropping that term is exactly why a naive velocity-only pump stalls near 140° and
+    can never top out. The implemented law is the saturated form
+  </p>
+  <div class="eq" is:raw>
+    $$ V_q = K_S \cdot \operatorname{sign}\!\left( \dot\varphi \cos\varphi \right) \cdot V_{q,max}
+       \quad \text{while } E < E_{top}, \text{ else coast} $$
+  </div>
+  <p>
+    with one crucial practical addition: a ~30 ms <strong>time debounce</strong> on the sign —
+    a commanded direction must persist before it is adopted. This rejects noise-driven
+    chattering near the turnarounds (where <span is:raw>$\dot\varphi \approx 0$</span> by
+    definition, so a velocity deadband would block the <em>real</em> reversals too) while
+    preserving the true once-per-half-swing flips. The result is a single clean flick
+    from hanging to upright at only ~4–7 V.
+  </p>
+
+  <p>
+    <a href="/blog/furata-pendulum">← Back to the build log</a>
+  </p>
+</PostLayout>
+
+<!-- KaTeX (client-side rendering of the LaTeX on this page) -->
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css"
+/>
+<script
+  is:inline
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"
+></script>
+<script
+  is:inline
+  defer
+  src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+></script>
+<script is:inline>
+  // Deferred scripts finish before DOMContentLoaded, so renderMathInElement exists here.
+  document.addEventListener('DOMContentLoaded', function () {
+    renderMathInElement(document.body, {
+      delimiters: [
+        { left: '$$', right: '$$', display: true },
+        { left: '$', right: '$', display: false },
+      ],
+    });
+  });
+</script>
+
+<style>
+  .eq {
+    margin: 1.5rem 0;
+    overflow-x: auto;
+    overflow-y: hidden;
+    padding: 0.25rem 0;
+  }
+  /* KaTeX inherits the site text color; bump size slightly for readability */
+  .eq :global(.katex-display) {
+    margin: 0;
+  }
+  .eq :global(.katex) {
+    font-size: 1.05em;
+  }
+</style>
