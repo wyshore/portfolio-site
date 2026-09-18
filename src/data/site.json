@@ -25,7 +25,7 @@
   "skills": [
     {
       "title": "Design & Simulation",
-      "text": "SolidWorks, FEA, GD&T, rapid prototyping, design for manufacturing"
+      "text": "SolidWorks, rapid prototyping, FEA, design for manufacturing"
     },
     {
       "title": "Electronics & Embedded",
@@ -33,7 +33,7 @@
     },
     {
       "title": "Fabrication",
-      "text": "3D printing (FDM/PETG/ABS), machining, welding, sheet metal"
+      "text": "3D printing, machining, sheet metal"
     },
     {
       "title": "Software",
@@ -75,7 +75,7 @@
       },
       {
         "title": "Fabrication",
-        "text": "I've spent a lot of time with 3D printers (mostly FDM — PETG is my go-to for anything that needs to survive the real world), and I enjoy the process of turning a CAD model into something you can hold."
+        "text": "I own a Bambu Labs 3D printer and love using it to print my CAD models for various projects. I also learned my way around the machine shop during my 16 months at 3DM Devices, primarily learning the manual mill / lathe and working closely with the CNC machinist. I love the process of turning a CAD model into a physical build."
       },
       {
         "title": "Software",
