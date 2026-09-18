@@ -3,14 +3,10 @@
    ============================================================ */
 
 :root {
-  --color-bg: #0f0f0f;
-  --color-surface: #1a1a1a;
-  --color-surface-2: #242424;
-  --color-border: #2e2e2e;
-  --color-text: #e8e8e8;
-  --color-text-muted: #888;
-  --color-accent: #e8c547;       /* warm yellow — engineering/technical feel */
-  --color-accent-dim: rgba(232, 197, 71, 0.12);
+  /* Colour variables live in theme.css (managed by the Portfolio Editor).
+     Do NOT redefine them here — this file is imported after theme.css,
+     so anything declared here silently overrides the editor's settings. */
+
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
   --max-width: 760px;

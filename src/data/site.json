@@ -5,7 +5,7 @@
     "defaultImage": "/images/Seawall_cropped.JPG"
   },
   "theme": {
-    "bgPattern": ""
+    "bgPattern": "bg-pattern-blueprint"
   },
   "hero": {
     "backgroundImage": "/images/Seawall_cropped.JPG",
@@ -101,5 +101,11 @@
         "size": "large"
       }
     ]
+  },
+  "resume": {
+    "file": "/resume/Wyatt_Shore_Resume.pdf",
+    "updated": "2026-09-18",
+    "showUpdated": true,
+    "note": "Mechanical engineering co-op — mechatronics focus."
   }
 }
