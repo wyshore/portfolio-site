@@ -3,7 +3,6 @@ title: "Instrumented Test Rig and Reporting Application"
 description: "Purpose-built test hardware and software to characterize a mechanism properly."
 date: "2026-07-15"
 tags: ["Test & Validation","Python","Instrumentation"]
-draft: true
 type: "work"
 term: "3dm-2026"
 summary: "Built the sensing hardware and the desktop software to characterize the arm, replacing a manual measure-and-spreadsheet workflow."

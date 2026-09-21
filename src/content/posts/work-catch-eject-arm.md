@@ -3,7 +3,6 @@ title: "Dual-Purpose Catch and Eject Arm"
 description: "Consolidating two mechanisms into one extending pneumatic arm."
 date: "2026-08-20"
 tags: ["Mechanical Design","Pneumatics"]
-draft: true
 type: "work"
 term: "3dm-2026"
 summary: "Replaced two separate mechanisms with a single extending pneumatic arm, from concept through a validated prototype."

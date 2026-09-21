@@ -3,7 +3,6 @@ title: "Optimized Cam Motion Profile"
 description: "Rewriting a cam profile to remove vibration and follower separation."
 date: "2026-06-01"
 tags: ["Mechanical Design","Motion"]
-draft: true
 type: "work"
 term: "3dm-2026"
 summary: "Redesigned a scan head's drive cam as an optimized polynomial profile, removing vibration and letting the arm run at the actuator's limit."
