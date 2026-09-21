@@ -4,9 +4,36 @@ import { getCollection } from 'astro:content';
 import site from '../data/site.json';
 
 // Drafts are visible in the local live preview (dev) but never published (build).
-const posts = (await getCollection('posts'))
+const all = (await getCollection('posts'))
   .filter(post => import.meta.env.DEV || !post.data.draft)
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+// Personal projects get the card grid; work entries live on the career timeline
+// and link into it, so they never 404 from here.
+const posts = all.filter(p => p.data.type !== 'work');
+const workPosts = all.filter(p => p.data.type === 'work').slice(0, 4);
+
+// Co-op terms, newest first, for the badge row.
+const MONTH = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+const fmt = (ym: string) => {
+  const [y, m] = String(ym).split('-').map(Number);
+  return MONTH[(m || 1) - 1] + ' ' + String(y).slice(2);
+};
+const monthsBetween = (a: string, b: string) => {
+  const [sy, sm] = String(a).split('-').map(Number);
+  const [ey, em] = String(b).split('-').map(Number);
+  return Math.max(1, (ey - sy) * 12 + (em - sm) + 1);
+};
+const workTerms = (((site as any).work?.terms) ?? [])
+  .slice()
+  .sort((a: any, b: any) => String(b.start).localeCompare(String(a.start)))
+  .map((t: any) => ({
+    ...t,
+    span: fmt(t.start) + ' – ' + fmt(t.end),
+    mo: Number(t.months) > 0 ? Number(t.months) : monthsBetween(t.start, t.end),
+    initials: String(t.company || '?').replace(/[^A-Za-z0-9 ]/g, '').split(/\s+/)
+      .filter(Boolean).slice(0, 2).map((w: string) => w[0].toUpperCase()).join(''),
+  }));
 ---
 
 <BaseLayout>
@@ -54,6 +81,54 @@ const posts = (await getCollection('posts'))
         ))}
       </div>
     </section>
+
+    {(workTerms.length > 0 || workPosts.length > 0) && (
+      <section class="section">
+        <div class="section-header">
+          <h2>Work Experience</h2>
+          <a href="/career" class="see-all">See all &rarr;</a>
+        </div>
+
+        {workTerms.length > 0 && (
+          <div class="term-badges">
+            {workTerms.map((t: any) => (
+              <a href="/career" class="term-badge">
+                <span class="term-logo">
+                  {t.logo
+                    ? <img src={t.logo} alt={t.company} loading="lazy" />
+                    : <span class="term-initials">{t.initials}</span>}
+                </span>
+                <span class="term-info">
+                  <span class="term-company">{t.company}</span>
+                  <span class="term-role">{t.role}</span>
+                  <span class="term-span">{t.span}<span class="term-mo">{t.mo} mo</span></span>
+                </span>
+              </a>
+            ))}
+          </div>
+        )}
+        {workPosts.length > 0 && (
+        <div class="work-list">
+          {workPosts.map(post => (
+            <a href={`/career#entry-${post.slug}`} class="work-row">
+              {post.data.featureImage && (
+                <span class="work-thumb">
+                  <img src={post.data.featureImage} alt="" loading="lazy" />
+                </span>
+              )}
+              <span class="work-body">
+                <span class="work-title">{post.data.title}</span>
+                {(post.data.summary || post.data.description) && (
+                  <span class="work-sum">{post.data.summary || post.data.description}</span>
+                )}
+              </span>
+              <span class="work-arrow">&rarr;</span>
+            </a>
+          ))}
+        </div>
+        )}
+      </section>
+    )}
 
     <section class="section skills-section">
       <h2>{site.skillsHeading}</h2>
@@ -272,6 +347,108 @@ const posts = (await getCollection('posts'))
     font-size: 0.85rem;
     color: var(--color-accent);
     font-weight: 600;
+  }
+
+  /* ---- Co-op term badges ---- */
+  .term-badges {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .term-badge {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.8rem 0.9rem;
+    color: var(--color-text);
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .term-badge:hover {
+    border-color: var(--color-accent);
+    transform: translateY(-2px);
+    opacity: 1;
+  }
+
+  .term-logo {
+    flex: 0 0 auto;
+    width: 42px; height: 42px;
+    border-radius: 7px;
+    overflow: hidden;
+    display: grid; place-items: center;
+    background: var(--color-surface-2);
+    border: 1px solid var(--color-border);
+  }
+  .term-logo img { width: 100%; height: 100%; object-fit: contain; display: block; padding: 3px; }
+  .term-initials {
+    font-size: 0.82rem; font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--color-accent);
+  }
+
+  .term-info { display: flex; flex-direction: column; min-width: 0; gap: 0.1rem; }
+  .term-company { font-weight: 600; font-size: 0.92rem; line-height: 1.25; }
+  .term-role {
+    font-size: 0.78rem; color: var(--color-text-muted); line-height: 1.3;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .term-span {
+    display: flex; align-items: center; gap: 0.45rem;
+    font-size: 0.74rem; color: var(--color-text-muted); margin-top: 0.15rem;
+  }
+  .term-mo {
+    border: 1px solid var(--color-border);
+    background: var(--color-accent-dim);
+    color: var(--color-accent);
+    border-radius: 999px;
+    padding: 0.02rem 0.42rem;
+    font-weight: 600;
+  }
+
+  /* ---- Recent work rows (compact, distinct from the project cards) ---- */
+  .work-list { display: flex; flex-direction: column; gap: 0.6rem; }
+
+  .work-row {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    background: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    padding: 0.8rem 1rem;
+    color: var(--color-text);
+    transition: border-color 0.2s, transform 0.15s;
+  }
+  .work-row:hover {
+    border-color: var(--color-accent);
+    transform: translateX(3px);
+    opacity: 1;
+  }
+
+  .work-thumb {
+    flex: 0 0 auto;
+    width: 76px; height: 50px;
+    border-radius: 5px; overflow: hidden;
+    border: 1px solid var(--color-border);
+    background: var(--color-surface-2);
+  }
+  .work-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+  .work-body { flex: 1; min-width: 0; }
+  .work-title { display: block; font-weight: 600; font-size: 0.95rem; }
+  .work-sum {
+    display: block; margin-top: 0.15rem;
+    font-size: 0.84rem; color: var(--color-text-muted); line-height: 1.45;
+  }
+  .work-arrow { flex: 0 0 auto; color: var(--color-text-muted); transition: color 0.2s; }
+  .work-row:hover .work-arrow { color: var(--color-accent); }
+
+  @media (max-width: 520px) {
+    .work-thumb { display: none; }
   }
 
   /* ---- Skills ---- */

@@ -1,0 +1,11 @@
+---
+title: "Handheld Laser Scanner Prototype"
+description: "A new product prototype taken from breadboard to working handheld unit."
+date: "2025-10-10"
+tags: ["Prototyping","Embedded","Product Design"]
+draft: true
+type: "work"
+term: "3dm-2025"
+summary: "Took a new handheld product from breadboard to a working prototype — optics, firmware, enclosure and all."
+---
+<p>I was given a product idea to look into a handheld laser caliper device and asked to find out how to make it work as a viable product. I ended up building the whole first prototype with a viable bill of materials.</p><p>The core problem was interfacing a linear CCD with an Arduino, which meant generating multiple precise timing signals and proving them on an oscilloscope. I had close to no microcontroller timing experience going in, and spent a solid stretch of the term learning it properly.</p><figure class="size-medium align-center"><img src="/images/IMG_0242.jpeg" alt="" loading="lazy"><figcaption>Test Setup</figcaption></figure><p>I also applied some optics using a lens to collimate the laser light before reaching the sensor. </p><p>Once the system worked on a breadboard I compacted everything onto a hand-soldered perfboard assembly and designed a 3D-printed enclosure around it with battery power, an e-paper display and a custom tactile trigger.</p><figure class="img-row"><div class="img-row-grid cols-2"><img src="/images/IMG_0449.jpeg" alt="" loading="lazy"><img src="/images/IMG_0499.jpeg" alt="" loading="lazy"></div><figcaption>Condensed hand made perfboard assembly</figcaption></figure><figure class="img-row"><div class="img-row-grid cols-2"><img src="/images/IMG_0503.jpeg" alt="" loading="lazy"><img src="/images/IMG_0504.jpeg" alt="" loading="lazy"></div><figcaption>3D printed optics subassembly</figcaption></figure><figure class="size-medium align-center"><img src="/images/LaserCaliper.png" alt="" loading="lazy"><figcaption></figcaption></figure><figure class="size-medium align-center"><img src="/images/IMG_0512.jpeg" alt="" loading="lazy"><figcaption>Final Assembly</figcaption></figure>

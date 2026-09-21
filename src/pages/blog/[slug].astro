@@ -5,6 +5,7 @@ import { getCollection } from 'astro:content';
 export async function getStaticPaths() {
   // Drafts are visible in the local live preview (dev) but never published (build).
   const posts = (await getCollection('posts'))
+    .filter(post => post.data.type !== 'work')
     .filter(post => import.meta.env.DEV || !post.data.draft);
   return posts.map(post => ({
     params: { slug: post.slug },

@@ -107,5 +107,45 @@
     "updated": "2026-09-18",
     "showUpdated": true,
     "note": "Mechanical engineering co-op — mechatronics focus."
+  },
+  "work": {
+    "heading": "Work Experience",
+    "intro": "Three co-op terms at 3DM Devices designing, building and testing automated inspection and laser measurement systems. Click any entry to read more.",
+    "terms": [
+      {
+        "id": "3dm-2026",
+        "company": "3DM Devices",
+        "role": "Mechanical Design & Test Engineer",
+        "location": "Aldergrove, BC",
+        "start": "2026-05",
+        "end": "2026-09",
+        "blurb": "Owned a tire-handling mechanism end to end, from prototype through an instrumented test program.",
+        "months": 4,
+        "logo": "/images/3DM_LOGO.jpg"
+      },
+      {
+        "id": "3dm-2025",
+        "company": "3DM Devices",
+        "role": "Mechanical Design & Test Engineer",
+        "location": "Aldergrove, BC",
+        "start": "2025-05",
+        "end": "2025-12",
+        "blurb": "Eight-month term across product design, precision metrology, data analysis and production support.",
+        "months": 8,
+        "logo": "/images/3DM_LOGO.jpg"
+      },
+      {
+        "id": "3dm-2024",
+        "company": "3DM Devices",
+        "role": "Engineering Technologist ",
+        "location": "Aldergrove, BC",
+        "start": "2024-05",
+        "end": "2024-09",
+        "blurb": "First co-op term: hands-on assembly, precision laser/camera alignment, production support.",
+        "months": 4,
+        "logo": "/images/3DM_LOGO.jpg"
+      }
+    ],
+    "badgesHeading": "Work Experience"
   }
 }

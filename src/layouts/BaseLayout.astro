@@ -54,6 +54,7 @@ const fullTitle = title === site.seo.siteName ? title : `${title} — ${site.seo
       <ul class="nav-links">
         <li><a href="/" class={Astro.url.pathname === '/' ? 'active' : ''}>Home</a></li>
         <li><a href="/blog" class={Astro.url.pathname.startsWith('/blog') ? 'active' : ''}>Projects</a></li>
+        <li><a href="/career" class={Astro.url.pathname.startsWith('/career') ? 'active' : ''}>Career</a></li>
         <li><a href="/about" class={Astro.url.pathname === '/about/' || Astro.url.pathname === '/about' ? 'active' : ''}>About</a></li>
         <li><a href="/resume" class={Astro.url.pathname === '/resume/' || Astro.url.pathname === '/resume' ? 'active' : ''}>Resume</a></li>
       </ul>

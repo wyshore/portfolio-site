@@ -3,14 +3,14 @@
    Hand-edits here will be overwritten when you save settings.
    ============================================================ */
 :root {
-  --color-bg: #0d1117;
+  --color-bg: #161b22;
   --color-surface: #161b22;
   --color-surface-2: #21262d;
   --color-border: #30363d;
   --color-text: #e6edf3;
   --color-text-muted: #8b949e;
   --color-accent: #1bbdf3;
-  --color-accent-dim: rgba(88, 166, 255, 0.12);
+  --color-accent-dim: rgba(27, 189, 243, 0.12);
   --bg-pattern: none;
   --bg-pattern-size: auto;
 }
@@ -18,8 +18,11 @@
 /* Background patterns — applied to <body>::before so they sit behind everything */
 body::before {
   content: '';
-  position: fixed;
+  /* absolute, not fixed: the pattern scrolls with the page instead of
+     sitting still behind it. */
+  position: absolute;
   inset: 0;
+  min-height: 100%;
   pointer-events: none;
   z-index: -1;
   background-image: var(--bg-pattern);

@@ -157,14 +157,56 @@ declare module 'astro:content' {
   slug: "furata-pendulum";
   body: string;
   collection: "posts";
-  data: InferEntrySchema<"posts">
+  data: any
+} & { render(): Render[".md"] };
+"led-cornhole-boards.md": {
+	id: "led-cornhole-boards.md";
+  slug: "led-cornhole-boards";
+  body: string;
+  collection: "posts";
+  data: any
 } & { render(): Render[".md"] };
 "smart-birdfeeder.md": {
 	id: "smart-birdfeeder.md";
   slug: "smart-birdfeeder";
   body: string;
   collection: "posts";
-  data: InferEntrySchema<"posts">
+  data: any
+} & { render(): Render[".md"] };
+"work-air-purge.md": {
+	id: "work-air-purge.md";
+  slug: "work-air-purge";
+  body: string;
+  collection: "posts";
+  data: any
+} & { render(): Render[".md"] };
+"work-cam-profile.md": {
+	id: "work-cam-profile.md";
+  slug: "work-cam-profile";
+  body: string;
+  collection: "posts";
+  data: any
+} & { render(): Render[".md"] };
+"work-catch-eject-arm.md": {
+	id: "work-catch-eject-arm.md";
+  slug: "work-catch-eject-arm";
+  body: string;
+  collection: "posts";
+  data: any
+} & { render(): Render[".md"] };
+"work-handheld-scanner.md": {
+	id: "work-handheld-scanner.md";
+  slug: "work-handheld-scanner";
+  body: string;
+  collection: "posts";
+  data: any
+} & { render(): Render[".md"] };
+"work-test-rig.md": {
+	id: "work-test-rig.md";
+  slug: "work-test-rig";
+  body: string;
+  collection: "posts";
+  data: any
 } & { render(): Render[".md"] };
 };
 
@@ -176,5 +218,5 @@ declare module 'astro:content' {
 
 	type AnyEntryMap = ContentEntryMap & DataEntryMap;
 
-	export type ContentConfig = typeof import("./../../src/content/config.js");
+	export type ContentConfig = never;
 }

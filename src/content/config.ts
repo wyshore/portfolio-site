@@ -9,6 +9,13 @@ const posts = defineCollection({
     featureImage: z.string().optional(),
     tags: z.array(z.string()).default([]),
     draft: z.boolean().default(false),
+
+    // 'project' -> shown on /blog.  'work' -> shown on the /experience timeline.
+    type: z.enum(['project', 'work']).default('project'),
+    // For work entries: which term in site.json -> work.terms this belongs to.
+    term: z.string().optional(),
+    // One-line summary shown on the collapsed timeline card.
+    summary: z.string().optional(),
   }),
 });
 
